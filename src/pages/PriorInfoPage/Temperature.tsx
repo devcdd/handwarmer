@@ -44,7 +44,7 @@ const Temperature: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <h2 className="text-2xl font-light mt-4">
+      <h2 className="text-xl font-light mt-4">
         {gender === "female" ? "여성분" : "남성분"} 차례입니다 !
       </h2>
       <input
