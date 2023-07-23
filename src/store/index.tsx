@@ -1,31 +1,82 @@
-import { legacy_createStore as createStore } from "redux";
+import { createStore } from "redux";
 
 export interface RootState {
-  temperature: number | null;
+  femaleTemperature: number | null;
+  maleTemperature: number | null;
+  gender: "female" | "male" | null;
 }
 
-interface SetTemperatureAction {
-  type: "SET_TEMPERATURE";
+interface SetFemaleTemperatureAction {
+  type: "SET_FEMALE_TEMPERATURE";
   payload: number;
 }
 
-export const setTemperature = (temperature: number): SetTemperatureAction => {
+interface SetMaleTemperatureAction {
+  type: "SET_MALE_TEMPERATURE";
+  payload: number;
+}
+
+interface SetGenderAction {
+  type: "SET_GENDER";
+  payload: "female" | "male";
+}
+
+export const setFemaleTemperature = (
+  temperature: number
+): SetFemaleTemperatureAction => {
   return {
-    type: "SET_TEMPERATURE",
+    type: "SET_FEMALE_TEMPERATURE",
     payload: temperature,
   };
 };
 
+export const setMaleTemperature = (
+  temperature: number
+): SetMaleTemperatureAction => {
+  return {
+    type: "SET_MALE_TEMPERATURE",
+    payload: temperature,
+  };
+};
+
+export const setGender = (gender: "female" | "male"): SetGenderAction => {
+  return {
+    type: "SET_GENDER",
+    payload: gender,
+  };
+};
+
+const initialState: RootState = {
+  femaleTemperature: 50,
+  maleTemperature: 50,
+  gender: "male",
+};
+
 const reducer = (
-  state: RootState = { temperature: null },
-  action: SetTemperatureAction
+  state: RootState = initialState,
+  action:
+    | SetFemaleTemperatureAction
+    | SetMaleTemperatureAction
+    | SetGenderAction
 ): RootState => {
   switch (action.type) {
-    case "SET_TEMPERATURE":
-      console.log(`Temperate: ${action.payload}`);
+    case "SET_FEMALE_TEMPERATURE":
+      console.log("state: ", action.payload);
       return {
         ...state,
-        temperature: action.payload,
+        femaleTemperature: action.payload,
+      };
+    case "SET_MALE_TEMPERATURE":
+      console.log("state: ", action.payload);
+      return {
+        ...state,
+        maleTemperature: action.payload,
+      };
+    case "SET_GENDER":
+      console.log("state: ", action.payload);
+      return {
+        ...state,
+        gender: action.payload,
       };
     default:
       return state;

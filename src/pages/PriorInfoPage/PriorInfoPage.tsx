@@ -48,9 +48,10 @@ const PriorInfoPage = () => {
         )}
         {isGenderSelected && selectedTemperature === null && (
           <>
-            <div className="text-4xl font-bold mb-5 text-center">
-              상대방과 나는 몇 도 정도 될까요?
-            </div>
+            <p className="text-4xl font-bold text-center">
+              상대방과 나의 온도를
+            </p>
+            <p className="text-4xl font-bold mb-5 text-center">매겨보세요 !</p>
             <Thermometer />
             <Temperature />
           </>
