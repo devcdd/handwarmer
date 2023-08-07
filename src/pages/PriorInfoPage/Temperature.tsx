@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   RootState,
@@ -7,6 +7,7 @@ import {
   setGender,
 } from "../../store";
 import { useNavigate } from "react-router-dom";
+import { useLocalStorage, useSessionStorage } from "usehooks-ts";
 
 const Temperature: React.FC = () => {
   const dispatch = useDispatch();
@@ -20,13 +21,39 @@ const Temperature: React.FC = () => {
     (state: RootState) => state.maleTemperature
   );
 
+  const [localMaleTemperature, setLocalMaleTemperature] = useLocalStorage(
+    "maleTemperature", // 키 값 수정
+    "50" // 초기 온도값 설정
+  );
+
+  const [localFemaleTemperature, setLocalFemaleTemperature] = useLocalStorage(
+    "femaleTemperature", // 키 값 수정
+    "50" // 초기 온도값 설정
+  );
+
+  /*
+  useEffect(() => {
+    if (localMaleTemperature !== null && localFemaleTemperature !== null) {
+      const result = window.confirm(
+        "이전에 입력하신 설정값이 발견되었습니다, 그대로 사용하시겠습니까?"
+      );
+      if (result) {
+        navigate("/main");
+      } else {
+      }
+    }
+  }, []); // 픽스 예정
+  */
+
   const handleTemperatureChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const temperatureValue = Number(e.target.value);
 
     if (gender === "female") {
       dispatch(setFemaleTemperature(temperatureValue));
+      setLocalFemaleTemperature(temperatureValue.toString());
     } else if (gender === "male") {
       dispatch(setMaleTemperature(temperatureValue));
+      setLocalMaleTemperature(temperatureValue.toString());
     }
   };
 
@@ -44,7 +71,7 @@ const Temperature: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <h2 className="text-xl font-light mt-4">
+      <h2 className="text-xl font-bold">
         {gender === "female" ? "여성분" : "남성분"} 차례입니다 !
       </h2>
       <input
